@@ -5,11 +5,16 @@ import java.util.List;
 
 import com.generics_extra.model.Student;
 
-public class QueryList<T extends Student & QueryItem> { // more restrictive 
-    private List<T> items;
+public class QueryList<T extends Student & QueryItem> extends ArrayList<T> { // more restrictive
+    // private List<T> items;
+
+    public QueryList() {
+
+    }
 
     public QueryList(List<T> items) {
-        this.items = items;
+        super(items);
+        // this.items = items;
     }
 
     public static <T extends QueryItem> List<T> getMatches(List<T> items, String field, String value) {
@@ -23,10 +28,10 @@ public class QueryList<T extends Student & QueryItem> { // more restrictive
         return matches;
     }
 
-    public List<T> getMatches(String field, String value) {
-        List<T> matches = new ArrayList<>();
+    public QueryList<T> getMatches(String field, String value) {
+        QueryList<T> matches = new QueryList<>();
 
-        for (var item : items) {
+        for (var item : this) {
             if (item.matchFieldValue(field, value)) {
                 matches.add(item);
             }

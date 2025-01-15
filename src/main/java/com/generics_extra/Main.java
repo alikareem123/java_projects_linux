@@ -1,9 +1,11 @@
 package com.generics_extra;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.generics_extra.model.LPAStudent;
+import com.generics_extra.model.LPAStudentComparator;
 import com.generics_extra.model.Student;
 import com.generics_extra.util.QueryItem;
 import com.generics_extra.util.QueryList;
@@ -43,6 +45,29 @@ public class Main {
         printMoreLists(students2021);
 
         // QueryList<Employee> employeeList = new QueryList<>();
+
+        QueryList<LPAStudent> queryListN = new QueryList<>();
+        for (int i = 0; i < 25; i++) {
+            queryListN.add(new LPAStudent());
+        }
+        System.out.println("Ordered");
+        queryListN.sort(Comparator.naturalOrder());
+        printList(queryListN);
+
+        System.out.println("Matches");
+        var matchesN = queryListN.getMatches("PercentComplete", "50").getMatches("Course", "Python");
+        matchesN.sort(new LPAStudentComparator());
+        printList(matchesN);
+
+        System.out.println("Ordered");
+        matchesN.sort(null);
+        printList(matchesN);
+    }
+
+    public static void printList(List<?> students) {
+        for (var student : students) {
+            System.out.println(student);
+        }
     }
 
     public static <T> void printMoreLists(List<? extends Student> students) {
@@ -79,4 +104,5 @@ public class Main {
     // }
     // System.out.println();
     // }
+
 }
